@@ -1,0 +1,57 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+ul {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #f0f0f0;
+    
+}
+span {
+    border-radius: 8px;
+    padding: 4px 8px;
+    background-color: #ccc;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin: 2px;
+}
+.pType {
+    font-size: 14px;
+    gap: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: -8px;
+    margin-bottom: 8px;
+}
+.liCard {
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    border: 2px solid;
+    border-radius: 12px;
+    padding: 4px;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: center;
+    
+    
+}
+.liCard:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-color: #333;
+    background-color: #fff;
+}
