@@ -30,16 +30,26 @@ console.log("rodou função")
     const ul = document.querySelector("ul")
     pokemons.results.forEach(async(pokemon)=>{
         console.log(pokemon,"pokemon")
+        const liId = document.createElement("li")
         const li = document.createElement("li")
         const liBack = document.createElement("li")
         const p = document.createElement("p")
         p.innerText = pokemon.name
         //pegando mais infos
+        liId.innerText = pokemon.url.split("/")[6]
+
+        
 
         //imagem do pokemon
         const response = await fetch(pokemon.url)
         const infos = await response.json()
         console.log(infos,"infos")
+        li.addEventListener("click",()=>{
+           //JSON.
+            localStorage.setItem("pokemon",JSON.stringify(infos))
+            location.href = "/pokemon"
+        })
+
         const img = document.createElement("img")
         img.src = infos.sprites.front_default
 
@@ -81,8 +91,9 @@ console.log("rodou função")
         liBack.append(imgBack,imgBackShiny)
         const liCard = document.createElement("li")
         liCard.classList.add("liCard")
-        liCard.append(li,liBack,pType,p)
+        liCard.append(liId,li,liBack,pType,p)
         ul.append(liCard)
     })
+    
 }
 getPokemons()
