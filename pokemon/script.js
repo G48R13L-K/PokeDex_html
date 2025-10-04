@@ -1,4 +1,5 @@
 
+// cor tipo
 const colorsTypes = {
     normal: '#A8A77A',
     fire: '#EE8130',
@@ -20,7 +21,7 @@ const colorsTypes = {
     fairy: '#D685AD',
 };
 
-// Mapeamento de stats para português (para exibir como na tela simulada)
+// stats
 const statNamesPT = {
     hp: 'Vida (HP)',
     attack: 'Ataque',
@@ -32,100 +33,96 @@ const statNamesPT = {
 
 function getPokemon() {
     const infosJson = localStorage.getItem("pokemon");
-    if (!infosJson) {
-        console.error("Nenhum Pokémon encontrado no localStorage!");
-        const ul = document.querySelector("ul");
-        const errorP = document.createElement("p");
-        errorP.innerText = "Erro: Nenhum Pokémon salvo. Busque um na API primeiro.";
-        errorP.style.color = "red";
-        ul.appendChild(errorP);
-        return;
-    }
 
     const infos = JSON.parse(infosJson);
     console.log(infos, "pokemon");
 
     const ul = document.querySelector("ul");
-    ul.innerHTML = ""; // Limpa para evitar duplicatas (melhoria)
+    
 
-    // Cor de fundo baseada no primeiro tipo (como no original)
+    // fundo por tipo
     const firstType = infos.types[0].type.name;
-    ul.style.backgroundColor = colorsTypes[firstType] || '#f0f0f0';
+    ul.style.backgroundColor = colorsTypes[firstType];
 
-    // Nome (equivalente a <h1> na tela)
+    // nome
     const h1 = document.createElement("h1");
-    h1.innerText = infos.name.charAt(0).toUpperCase() + infos.name.slice(1); // Capitaliza
+    h1.innerText = infos.name.charAt(0).toUpperCase() + infos.name.slice(1); 
     ul.appendChild(h1);
+    
 
-    // Badges para todos os tipos (melhoria: múltiplos tipos como na tela)
+    // tipo
     const typesDiv = document.createElement("div");
     typesDiv.classList.add("types-div");
     infos.types.forEach(typeObj => {
         const typeName = typeObj.type.name;
-        const typeBadge = document.createElement("span");
-        typeBadge.innerText = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-        typeBadge.classList.add("type-badge");
-        typeBadge.style.backgroundColor = colorsTypes[typeName] || '#ccc';
-        typesDiv.appendChild(typeBadge);
+        const typeSpan = document.createElement("span");
+        typeSpan.innerText = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        typeSpan.classList.add("type-badge");
+        typeSpan.style.backgroundColor = colorsTypes[typeName];
+        typesDiv.appendChild(typeSpan);
     });
     ul.appendChild(typesDiv);
 
-    // Imagem oficial (como na tela, com classe)
+    // Imagem 
     const imgPoke = document.createElement("img");
     imgPoke.src = infos.sprites.other["official-artwork"].front_default || infos.sprites.front_default;
     imgPoke.alt = `${infos.name} oficial`;
     imgPoke.classList.add("official-img");
     ul.appendChild(imgPoke);
 
-    // Seção Sprites (baseado no seu original, mas integrado à tela)
+    //sprites do jogo
     const liSprites = document.querySelector(".sprites-li") || createLiSprites(ul);
     liSprites.classList.add("liSprites");
-    liSprites.style.backgroundColor = colorsTypes[firstType] || '#f0f0f0';
+    liSprites.style.backgroundColor = colorsTypes[firstType];
 
     const pSprites = document.createElement("p");
-    pSprites.innerText = "Sprites"; // Capitalizado como na tela
+    pSprites.innerText = "Sprites"; 
     pSprites.style.fontWeight = "bold";
     pSprites.style.textAlign = "center";
 
     const divImagens = document.createElement("div");
     divImagens.classList.add("divImagens");
 
-    // Default (seu código original, com fallback)
+    
     const divDefault = document.createElement("div");
     divDefault.classList.add("divDefault");
     const pDefault = document.createElement("p");
-    pDefault.innerText = "Default"; // Capitalizado
+    pDefault.innerText = "Default"; 
+
     const imgFront = document.createElement("img");
     imgFront.src = infos.sprites.other?.showdown?.front_default || infos.sprites.front_default;
     imgFront.alt = "Frente default";
     const imgBack = document.createElement("img");
     imgBack.src = infos.sprites.other?.showdown?.back_default || infos.sprites.back_default;
     imgBack.alt = "Costas default";
+
     divDefault.append(pDefault, imgFront, imgBack);
 
-    // Shiny (seu código original, com fallback)
+    
     const divShiny = document.createElement("div");
     divShiny.classList.add("divShiny");
     const pShiny = document.createElement("p");
-    pShiny.innerText = "Shiny"; // Capitalizado
+    pShiny.innerText = "Shiny";
+
     const imgShinyFront = document.createElement("img");
     imgShinyFront.src = infos.sprites.other?.showdown?.front_shiny || infos.sprites.front_shiny;
     imgShinyFront.alt = "Frente shiny";
     const imgShinyBack = document.createElement("img");
     imgShinyBack.src = infos.sprites.other?.showdown?.back_shiny || infos.sprites.back_shiny;
     imgShinyBack.alt = "Costas shiny";
+    
     divShiny.append(pShiny, imgShinyFront, imgShinyBack);
 
     divImagens.append(divDefault, divShiny);
     liSprites.append(pSprites, divImagens);
 
-    // Seção Infos (habilidades e stats, como na tela)
+    // infos
     const liInfos = document.querySelector(".type.liInfos") || createLiInfos(ul);
-    createAbilitiesSection(infos, liInfos);
-    createStatsSection(infos, liInfos);
+    createAbilities(infos, liInfos);
+    createStats(infos, liInfos);
 }
 
-// Função auxiliar para criar <li> de sprites se não existir
+// criando li
 function createLiSprites(ul) {
     const li = document.createElement("li");
     li.classList.add("sprites-li");
@@ -133,7 +130,7 @@ function createLiSprites(ul) {
     return li;
 }
 
-// Função auxiliar para criar <li> de infos se não existir
+// criando li
 function createLiInfos(ul) {
     const li = document.createElement("li");
     li.classList.add("type", "liInfos");
@@ -141,8 +138,8 @@ function createLiInfos(ul) {
     return li;
 }
 
-// Seção de Habilidades (melhorada: lista em uma linha como na tela)
-function createAbilitiesSection(infos, liInfos) {
+// habilidades
+function createAbilities(infos, liInfos) {
     const pHabilidades = document.createElement("p");
     pHabilidades.innerText = "Habilidades:";
     pHabilidades.style.fontWeight = "bold";
@@ -156,8 +153,8 @@ function createAbilitiesSection(infos, liInfos) {
     liInfos.appendChild(pAbilities);
 }
 
-// Seção de Stats (corrigida e formatada como na tela)
-function createStatsSection(infos, liInfos) {
+// funcão para status base
+function createStats(infos, liInfos) {
     const pStats = document.createElement("p");
     pStats.innerText = "Status Base:";
     pStats.style.fontWeight = "bold";
@@ -170,9 +167,12 @@ function createStatsSection(infos, liInfos) {
         const displayName = statNamesPT[statName] || statName.charAt(0).toUpperCase() + statName.slice(1);
         const baseValue = statusbar.base_stat;
         pStatus.innerText = `${displayName}: ${baseValue}`;
-        liInfos.appendChild(pStatus); // Adicionado (faltava no original)
+        liInfos.appendChild(pStatus); 
     });
+
+    
 }
 
-// Executa quando o DOM carrega (melhoria para compatibilidade)
-document.addEventListener("DOMContentLoaded", getPokemon);
+
+    
+ getPokemon();
