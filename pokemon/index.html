@@ -14,6 +14,14 @@
         <li class="type"></li>
         
     </main>
-    <script src="script.js"></script>
+    <script src="script.js">
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedPokemon = localStorage.getItem("pokemon");
+            if (!storedPokemon) {
+                document.body.innerHTML = "<p>Nenhum Pokémon selecionado. <a href='index.html'>Voltar</a>.</p>";
+                return;
+            }
+        })
+    </script>
 </body>
 </html>
