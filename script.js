@@ -47,7 +47,7 @@ console.log("rodou função")
         li.addEventListener("click",()=>{
            //JSON.
             localStorage.setItem("pokemon",JSON.stringify(infos))
-            location.href = "./pokemon/pokemon.html"
+            location.href = "./pokemon"
         })
 
         const img = document.createElement("img")
