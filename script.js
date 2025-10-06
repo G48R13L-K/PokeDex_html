@@ -36,7 +36,7 @@ console.log("rodou função")
         const p = document.createElement("p")
         p.innerText = pokemon.name
         //pegando mais infos
-        liId.innerText = pokemon.url.split("/PokeDex_html")[6]
+        liId.innerText = pokemon.url.split("/")[6]
 
         
 
